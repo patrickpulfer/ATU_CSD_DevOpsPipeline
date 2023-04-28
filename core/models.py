@@ -8,17 +8,18 @@ from django.dispatch import receiver
 class Profile(models.Model):
     
     class Role(models.TextChoices):
-        USER = 'User', _('User')
-        AGENT = 'Agent', _('Support Agent')
-        ADMIN = 'Admin', _('Administrator')
-        
+        user_role = 'User', _('User')
+        agent_role = 'Agent', _('Support Agent')
+        admin_role = 'Admin', _('Administrator')
 
-    user = models.OneToOneField(
-        User, related_name='profile', on_delete=models.CASCADE)
-    role = models.CharField(
-        choices=Role.choices,
-        max_length=5,
-        )
+
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+    role = models.CharField(choices=Role.choices, max_length=5)
+
+
+    def __str__(self):
+        return self.user.username
+
 
 
 @receiver(post_save, sender=User)
