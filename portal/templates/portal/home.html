@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="border rounded-3 p-3">
+<div class="container text-center gap-3">
+
+    <img src="{% static 'logo_light.png' %}" class="img-fluid" width="200"/>
+        <h1 class="p-3">Welcome Patrick!</h1>
+        <div class="container">
+            <form>
+                <input class="form-control form-control-lg" list="datalistOptions" id="user_query" name="user_query" placeholder="Describe your issue...">
+                <datalist id="datalistOptions">
+                    <option value="I'm unable to connect to my Apps!">
+                    <option value="The App Catalog is not loading!">
+                    <option value="I click on Install and nothing happens!">
+                    <option value="Is the website down?">
+                </datalist>
+                <input type="submit" value="Go!" class="btn btn-success m-3">
+        </form>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+{% endblock %}
