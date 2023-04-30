@@ -8,9 +8,9 @@ from django.dispatch import receiver
 class Profile(models.Model):
     
     class Role(models.TextChoices):
-        user_role = 'User', _('User')
-        agent_role = 'Agent', _('Support Agent')
-        admin_role = 'Admin', _('Administrator')
+        user_role = 'user', _('User')
+        agent_role = 'agent', _('Support Agent')
+        admin_role = 'admin', _('Administrator')
 
 
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)

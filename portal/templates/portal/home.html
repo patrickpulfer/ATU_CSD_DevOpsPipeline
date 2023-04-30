@@ -10,8 +10,8 @@
     <img src="{% static 'logo_light.png' %}" class="img-fluid" width="200"/>
         <h1 class="p-3">Welcome Patrick!</h1>
         <div class="container">
-            <form>
-                <input class="form-control form-control-lg" list="datalistOptions" id="user_query" name="user_query" placeholder="Describe your issue...">
+            <form action="/search/" method="POST">
+                <input class="form-control form-control-lg" list="datalistOptions" id="user_query" name="user_query" placeholder="Describe your issue..." required>
                 <datalist id="datalistOptions">
                     <option value="I'm unable to connect to my Apps!">
                     <option value="The App Catalog is not loading!">
@@ -19,6 +19,7 @@
                     <option value="Is the website down?">
                 </datalist>
                 <input type="submit" value="Go!" class="btn btn-success m-3">
+                {% csrf_token %}
         </form>
     </div>
 </div>
