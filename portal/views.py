@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 import time
 from bs4 import BeautifulSoup
@@ -10,7 +10,10 @@ from .forms import Ticket_Form
 
 
 def home(request):
-	return render(request, 'portal/home.html')
+	if request.user.is_authenticated:
+		return render(request, 'portal/home.html')
+	else:
+		return HttpResponseRedirect('/accounts/login')
 
 
 def issue_search(request):
