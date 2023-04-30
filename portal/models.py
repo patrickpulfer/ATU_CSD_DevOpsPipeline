@@ -41,8 +41,8 @@ class Ticket_History(models.Model):
         action_closed = 'closed', _('Closed')
         action_reopened = 'reopened', _('Re-opened')
     
-    ticket = models.ForeignKey(Ticket, blank=True, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, blank=True, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, blank=True, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, blank=True, on_delete=models.DO_NOTHING)
     action = models.CharField(choices=Action.choices, max_length=10)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_created=True)
