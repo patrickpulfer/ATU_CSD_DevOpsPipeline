@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="border rounded-3 p-3">
+< class="container text-center gap-3">
+
+    <h3>We have found the following Knowledge Base articles which may be useful</h3>
+        <ul class="list-group list-group-flush">
+            {% for key, value in articles.items %}
+            <a href="{{ value.url }}" target="_blank"><h5><li class="list-group-item">{{ value.title }}</h5><br>
+            <span class="badge rounded-pill text-bg-primary">Last Update: {{ value.update }}</span></li></a>
+            {% endfor %}
+        </ul>
+        <ul class="list-group list-group-flush"></ul>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse_ticket" role="button" aria-expanded="false">
+            I still need help!
+        </a>
+        <div class="collapse" id="collapse_ticket">
+            <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            </div>
+        </div>
+
+        <h1 class="p-3">Welcome Patrick!</h1>
+        <div class="container">
+            Search
+                {% csrf_token %}
+        </div>
+</div>
+
+
+</div>
+</div>
+
+{% endblock %}
