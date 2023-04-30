@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'core',
     'portal',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -63,9 +65,16 @@ TEMPLATES = [
 ]
 
 
+"""
+Crispy Forms Settings
+"""
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
 SITE_ID = 1
 WSGI_APPLICATION = 'SmartHelpDesk.wsgi.application'
-
+LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

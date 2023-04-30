@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import re
+from .forms import Ticket_Form
 
 
 def home(request):
@@ -73,9 +74,11 @@ def issue_search(request):
 		"""
 		Parsing variables into context
 		"""
+		ticket_form = Ticket_Form()
 		context = {
 			'user_query': request.POST['user_query'],
 			'articles' : articles,
+			'ticket_form' : ticket_form,
 		}
 		print('Articles: ', end='')
 		print(articles)
