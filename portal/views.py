@@ -1,16 +1,11 @@
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 from django.http import HttpResponse, HttpResponseRedirect
-=======
-from django.http import HttpResponse
->>>>>>> staging
 from django.shortcuts import render, get_object_or_404
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import re
-<<<<<<< HEAD
 from .forms import Ticket_Form
 
 
@@ -19,12 +14,6 @@ def home(request):
 		return render(request, 'portal/home.html')
 	else:
 		return HttpResponseRedirect('/accounts/login')
-=======
-
-
-def home(request):
-	return render(request, 'portal/home.html')
->>>>>>> staging
 
 
 def issue_search(request):
@@ -88,17 +77,11 @@ def issue_search(request):
 		"""
 		Parsing variables into context
 		"""
-<<<<<<< HEAD
 		ticket_form = Ticket_Form()
 		context = {
 			'user_query': request.POST['user_query'],
 			'articles' : articles,
 			'ticket_form' : ticket_form,
-=======
-		context = {
-			'user_query': request.POST['user_query'],
-			'articles' : articles,
->>>>>>> staging
 		}
 		print('Articles: ', end='')
 		print(articles)

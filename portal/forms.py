@@ -1,5 +1,4 @@
 from django import forms
-<<<<<<< HEAD
 from .models import *
 
 
@@ -21,6 +20,3 @@ class Ticket_Form(forms.ModelForm):
         'status': forms.Select(attrs={'class': 'form-control'})
 
     }
-=======
-from .models import *
->>>>>>> staging
