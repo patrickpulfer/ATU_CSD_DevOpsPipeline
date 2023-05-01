@@ -18,12 +18,12 @@ class Ticket(models.Model):
         priority_low = 'low', _('Low')
     
     user = models.ForeignKey(User, related_name='user', blank=True, on_delete=models.DO_NOTHING)
-    agent = models.ForeignKey(User, related_name='agent', blank=True, on_delete=models.DO_NOTHING)
+    agent = models.ForeignKey(User, related_name='agent', blank=True, null=True, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=300)
     description = models.TextField()
     status = models.CharField(choices=Status.choices, max_length=11)
     priority = models.CharField(choices=Priority.choices, max_length=11)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

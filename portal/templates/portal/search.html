@@ -3,7 +3,6 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-
 <div class="border rounded-3 p-3">
     <div class="container gap-3">
 
@@ -26,11 +25,11 @@
         <div class="collapse gap-3" id="collapse_ticket">
             <div class="card card-body">
                 <h3>Please describe your issue and we'll take care of it</h3>
-                <form>
+                <form action="/ticket/new/" method="POST">
                     <h3></h3>
                     {% csrf_token %}
                     {{ ticket_form|crispy }}
-                    <button type="input"></button>
+                    <button class="btn btn-success" type="input">Create Ticket</button>
                 </form>
             </div>
         </div>

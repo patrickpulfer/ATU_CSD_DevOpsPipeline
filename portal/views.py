@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import re
 from .forms import Ticket_Form
+from .models import *
 
 
 def home(request):
@@ -14,6 +15,45 @@ def home(request):
 		return render(request, 'portal/home.html')
 	else:
 		return HttpResponseRedirect('/accounts/login')
+
+
+def ticket(request, param_ticket):
+	ticket = get_object_or_404(Ticket, id=param_ticket)
+	ticket2 = Ticket.objects.filter(id=param_ticket)
+	ticket3 = ticket.created_at
+	print('ticket: ', end='')
+	print(ticket)
+	print('ticket2: ', end='')
+	print(ticket2)
+	print('ticket3: ', end='')
+	print(ticket3)
+	ticket_context = {}
+	ticket_context = {ticket3: "test" }
+	return render(request, 'portal/ticket.html', context=ticket_context)
+
+
+def dashboard(request):
+	if request.user.is_authenticated:
+		tickets = Ticket.objects.all()
+		dashboard_context = {'tickets': ticket}
+		return render(request, 'portal/dashboard.html', context=dashboard_context)
+	else:
+		return HttpResponseRedirect('/accounts/login')
+
+
+def create_ticket(request):
+	if request.method == 'POST' and request.user.is_authenticated:
+		ticket_form = Ticket_Form(request.POST)
+		if ticket_form.is_valid():
+			obj = ticket_form.save(commit=False)
+			obj.user = request.user
+			obj.agent_id = 1
+			obj.status = 'open'
+			obj.save()
+			ticket_id = obj.id
+		print('done!')
+	return HttpResponseRedirect('/ticket/%s' % obj.id)
+
 
 
 def issue_search(request):
@@ -46,34 +86,15 @@ def issue_search(request):
 		articles = {}
 		for a_element in a_elements:
 			articles[i] = { 'title': a_element.text, 'url': a_element.a['href'] }
-			#articles_dictionary[i]['title'] = a_element.text
-			#articles_dictionary[i]['link'] = a_element.a['href']
 			i+=1
 
 		article_lastupdate_temp = [a_element.text for a_element in a_elements2]
 		to_be_removed = {'ShareShare this linkCopy to Clipboardcopied to clipboard', '  Knowledge Base Article', 'topic: Product Announcements'}
 		article_lastupdate = [item for item in article_lastupdate_temp if item not in to_be_removed ]
-		print('article_lastupdate: ', end='')
-		print(article_lastupdate)
 		i=0
 		for article in articles:
 			articles[i]['update'] = article_lastupdate[i]
 			i+=1
-
-		#article_title = [a_element.text for a_element in a_elements]
-		#article_links = [a_element.a['href'] for a_element in a_elements]
-		
-		#article_lastupdate_temp = [a_element.text for a_element in a_elements2]
-		#to_be_removed = {'ShareShare this linkCopy to Clipboardcopied to clipboard', '  Knowledge Base Article', 'topic: Product Announcements'}
-		#article_lastupdate = [item for item in article_lastupdate_temp if item not in to_be_removed ]
-
-		#print('Articles: ', end='')
-		#print(article_title)
-		#print('URLs: ', end='')
-		#print(article_links)
-		#print('Last Updated: ', end='')
-		#print(article_lastupdate)
-
 		"""
 		Parsing variables into context
 		"""
@@ -83,19 +104,7 @@ def issue_search(request):
 			'articles' : articles,
 			'ticket_form' : ticket_form,
 		}
-		print('Articles: ', end='')
-		print(articles)
+		#print('Articles: ', end='')
+		#print(articles)
 		
 		return render(request, 'portal/search.html', context=context)
-
-
-
-
-
-
-# https://kb.vmware.com/s/global-search/%40uri#q=Intelligent%20Hub%20Release%20Notes&f:@commonproduct=[Workspace%20ONE%20UEM]&f:@commonlanguage=[English]
-
-#print(request.POST)
-#if request.method == 'POST':
-#f.close()
-#
