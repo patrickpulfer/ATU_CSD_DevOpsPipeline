@@ -45,7 +45,7 @@ class Ticket_History(models.Model):
     user = models.ForeignKey(User, blank=True, on_delete=models.DO_NOTHING)
     action = models.CharField(choices=Action.choices, max_length=10)
     comment = models.TextField()
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
     
     def __str__(self):
         return str(self.ticket.title)

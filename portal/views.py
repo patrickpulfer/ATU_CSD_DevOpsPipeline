@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import re
-from .forms import Ticket_Form
+from .forms import Ticket_Form, Ticket_History_Form
 from .models import *
 
 
@@ -18,18 +18,30 @@ def home(request):
 
 
 def ticket(request, param_ticket):
-	ticket = get_object_or_404(Ticket, id=param_ticket)
-	ticket2 = Ticket.objects.filter(id=param_ticket)
-	ticket3 = ticket.created_at
-	print('ticket: ', end='')
-	print(ticket)
-	print('ticket2: ', end='')
-	print(ticket2)
-	print('ticket3: ', end='')
-	print(ticket3)
-	ticket_context = {}
-	ticket_context = {'ticket': ticket2, }
-	return render(request, 'portal/ticket.html', context=ticket_context)
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect('/accounts/login')
+	else:
+		if request.method == 'GET':
+			tickets = Ticket.objects.filter(id=param_ticket)
+			ticket_history = Ticket_History.objects.filter(ticket=param_ticket)
+			ticket_history_form = Ticket_History_Form(instance=request.user)
+			ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form}
+		if request.method == 'POST':
+			tickets = get_object_or_404(Ticket, id=param_ticket)
+			ticket_history_form = Ticket_History_Form(request.POST)
+			if ticket_history_form.is_valid():
+				print(tickets)
+				obj = ticket_history_form.save(commit=False)
+				obj.user = request.user
+				obj.ticket = tickets
+				obj.save()
+				tickets = Ticket.objects.filter(id=param_ticket)
+				ticket_instance = get_object_or_404(Ticket, id=param_ticket)
+				ticket_instance.status=obj.action
+				ticket_instance.save()
+				ticket_history = Ticket_History.objects.filter(ticket=param_ticket)
+				ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form}
+		return render(request, 'portal/ticket.html', context=ticket_context)
 
 
 def dashboard(request):
@@ -51,14 +63,14 @@ def create_ticket(request):
 			obj.status = 'open'
 			obj.save()
 			ticket_id = obj.id
-		print('done!')
 	return HttpResponseRedirect('/ticket/%s' % obj.id)
 
 
 
 def issue_search(request):
 	if request.method == 'POST':
-		query = request.POST['user_query'].replace(" ", "-")
+		query = request.POST['user_query'].replace(" ", "-").replace("'", "")
+		
 		url = 'https://support.workspaceone.com/search/' + query + '?contentType=kb-articles&sort=relevance&language=en&page=1'
 		print('URL: ', end='')
 		print(url)
