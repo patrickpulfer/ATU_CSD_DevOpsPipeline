@@ -3,10 +3,9 @@
 
 {% block content %}
 {% csrf_token %}
-
+{% for item in ticket %}
 <div class="border rounded-3 p-3">
     <h1>Your Service Request</h1>
-    <h3>Test: {{ ticket3 }}</h3>
     <table class="table table-bordered table-sm table-responsive">
         <thead>
             <tr>
@@ -16,19 +15,42 @@
                 <th scope="col">Priority</th>
                 <th scope="col">Last Update</th>
                 <th scope="col">Subject</th>
+                <th scope="col">Agent</th>
             </tr>
         </thead>
         <tbody>
+            
             <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.status }}</td>
-                <td>{{ ticket.created_at }}</td>
-                <td>{{ ticket.priority }}</td>
-                <td>{{ ticket.updated_at }}</td>
-                <td>{{ ticket.title }}</td>
+                <td>{{ item.id }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.priority }}</td>
+                <td>{{ item.updated_at }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.agent }}</td>
             </tr>
+            
         </tbody>
     </table>
-</div>
+    <div class="border rounded-3 p-3">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-1 text-center">
+                    <i class="bi bi-person-circle fs-1"></i>
+                    <br>{{ item.user }}
+                </div>
+                <div class="col-md-11">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text"><small class="text-body-secondary">{{ item.created_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+
+</div>
+{% endfor %}
 {% endblock %}

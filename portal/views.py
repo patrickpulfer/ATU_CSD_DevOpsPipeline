@@ -28,14 +28,14 @@ def ticket(request, param_ticket):
 	print('ticket3: ', end='')
 	print(ticket3)
 	ticket_context = {}
-	ticket_context = {ticket3: "test" }
+	ticket_context = {'ticket': ticket2, }
 	return render(request, 'portal/ticket.html', context=ticket_context)
 
 
 def dashboard(request):
 	if request.user.is_authenticated:
 		tickets = Ticket.objects.all()
-		dashboard_context = {'tickets': ticket}
+		dashboard_context = {'tickets': tickets}
 		return render(request, 'portal/dashboard.html', context=dashboard_context)
 	else:
 		return HttpResponseRedirect('/accounts/login')

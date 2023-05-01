@@ -5,28 +5,29 @@
 {% csrf_token %}
 
 <div class="border rounded-3 p-3">
-    <h1>Your Service Request</h1>
-    <h3>Test: {{ tickets }}</h3>
+    <h1>Your Service Requests</h1>
     <table class="table table-bordered table-sm table-responsive">
         <thead>
             <tr>
+                <th scope="col">Subject</th>
                 <th scope="col">ID</th>
                 <th scope="col">Status</th>
                 <th scope="col">Created</th>
                 <th scope="col">Priority</th>
                 <th scope="col">Last Update</th>
-                <th scope="col">Subject</th>
             </tr>
         </thead>
         <tbody>
+            {% for ticket in tickets %}
             <tr>
+                <td><a href="/ticket/{{ ticket.id }}">{{ ticket.title }}</a></td>
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.status }}</td>
-                <td>{{ ticket.created_at }}</td>
+                <td>{{ ticket.created_at}}</td>
                 <td>{{ ticket.priority }}</td>
                 <td>{{ ticket.updated_at }}</td>
-                <td>{{ ticket.title }}</td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
