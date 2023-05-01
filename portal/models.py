@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Ticket(models.Model):
-    
+
     class Status(models.TextChoices):
         status_open = 'open', _('Open')
         status_in_progress = 'in_progress', _('In Progress')
@@ -28,7 +28,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return str(self.title)
-
+    
 
 class Ticket_History(models.Model):
     
@@ -49,3 +49,39 @@ class Ticket_History(models.Model):
     
     def __str__(self):
         return str(self.ticket.title)
+    
+
+class Diagnostics_Report(models.Model):
+
+    ticket = models.ForeignKey(Ticket, blank=True, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
+
+    enrollment_url = models.CharField(blank=True, null=True, max_length=200)
+    enrollment_group = models.CharField(blank=True, null=True, max_length=50)
+    awcm_status = models.BooleanField(default=False)
+    awcm_link = models.URLField(blank=True, null=True, max_length=200)
+    cn_status = models.BooleanField(default=False)
+    ds_status = models.BooleanField(default=False)
+    app_catalog = models.BooleanField(default=False)
+    service_status_indicator = models.CharField(blank=True, null=True, max_length=200)
+    service_status_description = models.CharField(blank=True, null=True, max_length=200)
+
+"""
+
+
+
+Diagnostics
+CheckboxInput
+
+https://discovery.awmdm.com/Autodiscovery/awcredentials.aws/v2/domainlookup/domain/test.com
+{"EnrollmentUrl":"https://sdalmieda-W01.vmware.com/DeviceManagement/Enrollment","GroupId":"Test"}
+
+https://cn135.awmdm.com/AirWatch/
+https://awcm135.awmdm.com/awcm/status/
+https://awcm135.awmdm.com/awcm/statistics/
+
+Device Management, 1 value
+Web Console, 1 value
+AWCM
+
+"""
