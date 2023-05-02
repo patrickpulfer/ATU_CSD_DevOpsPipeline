@@ -66,6 +66,8 @@ class Diagnostics_Report(models.Model):
     service_status_indicator = models.CharField(blank=True, null=True, max_length=200)
     service_status_description = models.CharField(blank=True, null=True, max_length=200)
 
+    def __str__(self):
+        return str(self.ticket.title)
 """
 
 

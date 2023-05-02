@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -24,8 +24,10 @@ def ticket(request, param_ticket):
 		if request.method == 'GET':
 			tickets = Ticket.objects.filter(id=param_ticket)
 			ticket_history = Ticket_History.objects.filter(ticket=param_ticket)
+			diagnostics_report = Diagnostics_Report.objects.filter(ticket=param_ticket)
 			ticket_history_form = Ticket_History_Form(instance=request.user)
-			ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form}
+			ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form, 'diagnostics': diagnostics_report}
+			#print(diagnostics_report)
 		if request.method == 'POST':
 			tickets = get_object_or_404(Ticket, id=param_ticket)
 			ticket_history_form = Ticket_History_Form(request.POST)
@@ -77,7 +79,8 @@ def create_ticket(request):
 			diagnostics_report.service_status_indicator = diagnostics.service_status['status']['indicator']
 			diagnostics_report.service_status_description = diagnostics.service_status['status']['description']
 			diagnostics_report.save()
-	return HttpResponseRedirect('/ticket/%s' % obj.id)
+	return redirect(ticket(ticket_id))
+	#return HttpResponseRedirect('/ticket/%s' % obj.id)
 
 
 
