@@ -58,7 +58,7 @@ class Diagnostics_Report(models.Model):
 
     enrollment_url = models.CharField(blank=True, null=True, max_length=200)
     enrollment_group = models.CharField(blank=True, null=True, max_length=50)
-    awcm_status = models.BooleanField(default=False)
+    awcm_status = models.CharField(max_length=50)
     awcm_link = models.URLField(blank=True, null=True, max_length=200)
     cn_status = models.BooleanField(default=False)
     ds_status = models.BooleanField(default=False)

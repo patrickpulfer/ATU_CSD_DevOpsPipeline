@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import re
 from .forms import Ticket_Form, Ticket_History_Form
 from .models import *
+import time, re
+from .classes.diagnostics import WS1_Diagnostics_Module
 
 
 def home(request):
@@ -63,6 +63,20 @@ def create_ticket(request):
 			obj.status = 'open'
 			obj.save()
 			ticket_id = obj.id
+
+			diagnostics = WS1_Diagnostics_Module()
+			diagnostics_report = Diagnostics_Report()
+			diagnostics_report.ticket = get_object_or_404(Ticket, id=ticket_id)
+			diagnostics_report.app_catalog = diagnostics.app_catalog_status
+			diagnostics_report.awcm_status = diagnostics.awcm_status
+			diagnostics_report.cn_status = diagnostics.console_status
+			diagnostics_report.ds_status = diagnostics.devices_status
+			diagnostics_report.awcm_link = diagnostics.url_awcm_statistics
+			diagnostics_report.enrollment_url = diagnostics.discover['EnrollmentUrl']
+			diagnostics_report.enrollment_group = diagnostics.discover['GroupId']
+			diagnostics_report.service_status_indicator = diagnostics.service_status['status']['indicator']
+			diagnostics_report.service_status_description = diagnostics.service_status['status']['description']
+			diagnostics_report.save()
 	return HttpResponseRedirect('/ticket/%s' % obj.id)
 
 
