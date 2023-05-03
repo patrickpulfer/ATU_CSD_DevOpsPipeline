@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% for ticket in tickets %}
+<div class="border rounded-3 p-2">
+    <h1>Hi {% load account %}{% user_display user %}, Your Service Request</h1>
+    <table class="table table-bordered table-sm table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Last Update</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Agent</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.created_at }}</td>
+                <td>{{ ticket.priority }}</td>
+                <td>{{ ticket.updated_at }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.agent }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    <div class="container-fluid">
+        <div class="row">        
+        <div class="col-md-2">
+            <div class="border rounded-3 p-3">
+            <h6><i class="bi bi-file-bar-graph"></i> Diagnostics Report</h6>
+            <small>
+            {% for diagnostic in diagnostics%}
+            <li>Console Service:
+            {% if diagnostic.cn_status == True %}
+            <i class="bi bi-check-circle-fill text-success"></i>
+            {% else %}
+            <i class="bi bi-exclamation-octagon-fill text-danger"></i>
+            {% endif %}
+            </li><li>Devices Service:
+            {% if diagnostic.ds_status == True %}
+            <i class="bi bi-check-circle-fill text-success"></i>
+            {% else %}
+            <i class="bi bi-exclamation-octagon-fill text-danger"></i>
+            {% endif %}
+            </li><li>Catalog Service:
+            {% if diagnostic.app_catalog == True %}
+            <i class="bi bi-check-circle-fill text-success"></i>
+            {% else %}
+            <i class="bi bi-exclamation-octagon-fill text-danger"></i>
+            {% endif %}
+            </li><li>AWCM Service:
+            {% if diagnostic.awcm_status == 'OK' %}
+            <i class="bi bi-check-circle-fill text-success"></i>
+            {% else %}
+            <i class="bi bi-exclamation-octagon-fill text-danger"></i>{{ diagnostic.awcm_status }}
+            {% endif %}
+            </li><br>
+            Service Status:<br><li>
+            {% if diagnostic.service_status_indicator == 'none' %}
+            <i class="bi bi-check-circle-fill text-success"></i> {{ diagnostic.service_status_description }}
+            {% else %}
+            <i class="bi bi-exclamation-octagon-fill text-danger"></i>{{ diagnostic.service_status_indicator }}
+            {% endif %}
+            </li><li>Additional Details: <a href="https://status.workspaceone.com/" target="_blank">LINK</a>
+
+            </li>
+            <br>Additional details:
+            <li>Enrollment Group: {{ diagnostic.enrollment_group }}</li>
+            <li>Enrollment URL: <a href="{{ diagnostic.enrollment_url }}" target="_blank">LINK</a></li>
+            <br>
+            <br>
+
+            {% endfor %}
+            </small>
+            </div>
+
+        </div>
+        <div class="col-md-10">
+            <div class="border rounded-3 p-3">
+                <div class="card mb-3 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-2 text-center">
+                            <i class="bi bi-person-circle fs-1"></i>
+                            <br>{{ ticket.user }}
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ ticket.title }}</h5>
+                                <p class="card-text">{{ ticket.description }}</p>
+                                <p class="card-text"><small class="text-body-secondary">{{ ticket.created_at }}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+        
+                {% for update in ticket_history %}
+                {% if ticket.user == update.user %}
+                <div class="card mb-3 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-2 text-center">
+                            <i class="bi bi-person-circle fs-1"></i>
+                            <br>{{ update.user }}
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title">Update: {{ update.action }}</h5>
+                                <p class="card-text">{{ update.comment }}</p>
+                                <p class="card-text"><small class="text-body-secondary">{{ update.created_at }}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card mb-3 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-10">
+                            <div class="card-body text-end">
+                                <h5 class="card-title">Update: {{ update.action }}</h5>
+                                <p class="card-text">{{ update.comment }}</p>
+                                <p class="card-text"><small class="text-body-secondary">{{ update.created_at }}</small></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <i class="bi bi-person-circle fs-1"></i>
+                            <br>{{ update.user }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                
+                <a class="btn btn-warning" data-bs-toggle="collapse" data-bs-target=".collapse" role="button" aria-expanded="false">
+                    Add a comment
+                </a>
+                <br><br>
+                <div class="collapse gap-3" id="collapse_ticket">
+                    <div class="card card-body">
+                        <form action="" method="POST">
+                            <h3></h3>
+                            {{ ticket_history_form|crispy }}
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="input">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endfor %}
+{% endblock %}
