@@ -27,7 +27,6 @@ def ticket(request, param_ticket):
 			diagnostics_report = Diagnostics_Report.objects.filter(ticket=param_ticket)
 			ticket_history_form = Ticket_History_Form(instance=request.user)
 			ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form, 'diagnostics': diagnostics_report}
-			#print(diagnostics_report)
 		if request.method == 'POST':
 			tickets = get_object_or_404(Ticket, id=param_ticket)
 			ticket_history_form = Ticket_History_Form(request.POST)
@@ -61,12 +60,13 @@ def create_ticket(request):
 		ticket_form = Ticket_Form(request.POST)
 
 		if ticket_form.is_valid():
-			obj = ticket_form.save(commit=False)
-			obj.user = request.user
-			obj.agent_id = 1
-			obj.status = 'open'
-			obj.save()
-			ticket_id = obj.id
+			ticket_data = ticket_form.save(commit=False)
+			ticket_data.user = request.user
+			ticket_data.agent_id = 1
+			ticket_data.status = 'open'
+			ticket_data.save()
+			ticket_id = ticket_data.id
+
 			diagnostics = WS1_Diagnostics_Module()
 			diagnostics_report = Diagnostics_Report()
 			diagnostics_report.ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -81,7 +81,7 @@ def create_ticket(request):
 			diagnostics_report.service_status_description = diagnostics.service_status['status']['description']
 			diagnostics_report.save()
 
-	return HttpResponseRedirect('/ticket/%s' % obj.id)
+	return HttpResponseRedirect('/ticket/%s' % ticket_data.id)
 
 
 def issue_search(request):
