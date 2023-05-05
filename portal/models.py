@@ -68,22 +68,3 @@ class Diagnostics_Report(models.Model):
 
     def __str__(self):
         return str(self.ticket.title)
-"""
-
-
-
-Diagnostics
-CheckboxInput
-
-https://discovery.awmdm.com/Autodiscovery/awcredentials.aws/v2/domainlookup/domain/test.com
-{"EnrollmentUrl":"https://sdalmieda-W01.vmware.com/DeviceManagement/Enrollment","GroupId":"Test"}
-
-https://cn135.awmdm.com/AirWatch/
-https://awcm135.awmdm.com/awcm/status/
-https://awcm135.awmdm.com/awcm/statistics/
-
-Device Management, 1 value
-Web Console, 1 value
-AWCM
-
-"""
