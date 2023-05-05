@@ -12,14 +12,11 @@ class Profile(models.Model):
         agent_role = 'agent', _('Support Agent')
         admin_role = 'admin', _('Administrator')
 
-
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     role = models.CharField(choices=Role.choices, max_length=5)
 
-
     def __str__(self):
         return self.user.username
-
 
 
 @receiver(post_save, sender=User)
