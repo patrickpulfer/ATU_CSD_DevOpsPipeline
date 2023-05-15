@@ -1,6 +1,10 @@
 from django.test import TestCase
+from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from .models import Profile
+from core.models import Profile
+from portal.views import home, ticket, dashboard, create_ticket, issue_search
+from django.contrib import admin
+
 
 class ProfileModelTest(TestCase):
 
