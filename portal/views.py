@@ -27,7 +27,6 @@ def ticket(request, param_ticket):
 			diagnostics_report = Diagnostics_Report.objects.filter(ticket=param_ticket)
 			ticket_history_form = Ticket_History_Form(instance=request.user)
 			ticket_context = {'tickets': tickets, 'ticket_history': ticket_history, 'ticket_history_form': ticket_history_form, 'diagnostics': diagnostics_report}
-			#print(diagnostics_report)
 		if request.method == 'POST':
 			tickets = get_object_or_404(Ticket, id=param_ticket)
 			ticket_history_form = Ticket_History_Form(request.POST)
@@ -57,14 +56,16 @@ def dashboard(request):
 
 def create_ticket(request):
 	if request.method == 'POST' and request.user.is_authenticated:
+
 		ticket_form = Ticket_Form(request.POST)
+
 		if ticket_form.is_valid():
-			obj = ticket_form.save(commit=False)
-			obj.user = request.user
-			obj.agent_id = 1
-			obj.status = 'open'
-			obj.save()
-			ticket_id = obj.id
+			ticket_data = ticket_form.save(commit=False)
+			ticket_data.user = request.user
+			ticket_data.agent_id = 1
+			ticket_data.status = 'open'
+			ticket_data.save()
+			ticket_id = ticket_data.id
 
 			diagnostics = WS1_Diagnostics_Module()
 			diagnostics_report = Diagnostics_Report()
@@ -79,18 +80,14 @@ def create_ticket(request):
 			diagnostics_report.service_status_indicator = diagnostics.service_status['status']['indicator']
 			diagnostics_report.service_status_description = diagnostics.service_status['status']['description']
 			diagnostics_report.save()
-	return redirect(ticket(ticket_id))
-	#return HttpResponseRedirect('/ticket/%s' % obj.id)
 
+	return HttpResponseRedirect('/ticket/%s' % ticket_data.id)
 
 
 def issue_search(request):
 	if request.method == 'POST':
-		query = request.POST['user_query'].replace(" ", "-").replace("'", "")
-		
-		url = 'https://support.workspaceone.com/search/' + query + '?contentType=kb-articles&sort=relevance&language=en&page=1'
-		print('URL: ', end='')
-		print(url)
+		query = request.POST['user_query'].replace(" ", "-").replace("'", "").replace("?", "").replace("!", "")
+		url = 'https://support.workspaceone.com/search/' + query + '?contentType=kb-articles&sort=newest&language=en&page=1'
 		
 		"""
 		Parsing live website
@@ -100,30 +97,35 @@ def issue_search(request):
 		driver = webdriver.Chrome(options=options)
 		driver.get(url)
 		time.sleep(5)
-		page_source = driver.page_source
+		searchPage_source = driver.page_source
 		
-		page_source2 = page_source.split('resourceItems listView"><div>')
-		page_source3 = page_source2[1].split('showing results')
-		page_source4 = BeautifulSoup(page_source3[0], 'html.parser')
+		searchPage_topNoiseRemoved = searchPage_source.split('resourceItems listView"><div>')
+		searchPage_bottomRemoved = searchPage_topNoiseRemoved[1].split('showing results')
+		searchPage_noiseRemoved = BeautifulSoup(searchPage_bottomRemoved[0], 'html.parser')
+
 		"""
 		Parsing fields into respective lists
 		"""
-		a_elements = page_source4.find_all("div", class_='resourceTitle')
-		a_elements2 = page_source4.find_all("div", class_='resourceLabel')
+		results_Titles = searchPage_noiseRemoved.find_all("div", class_='resourceTitle')
+		results_LastUpdates = searchPage_noiseRemoved.find_all("div", class_='resourceLabel')
 
 		i=0
 		articles = {}
-		for a_element in a_elements:
-			articles[i] = { 'title': a_element.text, 'url': a_element.a['href'] }
+		for title in results_Titles:
+			articles[i] = { 'title': title.text, 'url': title.a['href'] }
 			i+=1
 
-		article_lastupdate_temp = [a_element.text for a_element in a_elements2]
-		to_be_removed = {'ShareShare this linkCopy to Clipboardcopied to clipboard', '  Knowledge Base Article', 'topic: Product Announcements'}
-		article_lastupdate = [item for item in article_lastupdate_temp if item not in to_be_removed ]
+		"""
+		Remove noise from HTML fields
+		"""
+		lastUpdate_items = [last_update.text for last_update in results_LastUpdates]
+		lastUpdate_textToRemove = {'ShareShare this linkCopy to Clipboardcopied to clipboard', '  Knowledge Base Article', 'topic: Product Announcements'}
+		article_lastUpdate = [item for item in lastUpdate_items if item not in lastUpdate_textToRemove ]
 		i=0
 		for article in articles:
-			articles[i]['update'] = article_lastupdate[i]
+			articles[i]['update'] = article_lastUpdate[i]
 			i+=1
+
 		"""
 		Parsing variables into context
 		"""
@@ -133,7 +135,5 @@ def issue_search(request):
 			'articles' : articles,
 			'ticket_form' : ticket_form,
 		}
-		#print('Articles: ', end='')
-		#print(articles)
 		
 		return render(request, 'portal/search.html', context=context)

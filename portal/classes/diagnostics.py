@@ -32,7 +32,6 @@ class WS1_Diagnostics_Module:
     awcm_status: str
     service_status: json
 
-
     def __init__(self):
         self.discover = self.getDiscovery()
         self.console_status = self.getConsoleStatus()
@@ -109,5 +108,3 @@ class WS1_Diagnostics_Module:
 
 
 diagnostics_to_load = Diagnostics()
-#diagnostics = WS1_Diagnostics_Module()
-#print(diagnostics.service_status['status'])

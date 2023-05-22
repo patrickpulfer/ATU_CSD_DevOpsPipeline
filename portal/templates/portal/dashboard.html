@@ -5,7 +5,7 @@
 {% csrf_token %}
 
 <div class="border rounded-3 p-3">
-    <h1>Your Service Requests</h1>
+    <h1>Your Open Service Requests</h1>
     <table class="table table-bordered table-sm table-responsive">
         <thead>
             <tr>
@@ -19,14 +19,44 @@
         </thead>
         <tbody>
             {% for ticket in tickets %}
+            {% if ticket.status != 'resolved' and ticket.status != 'closed' %}
             <tr>
                 <td><a href="/ticket/{{ ticket.id }}">{{ ticket.title }}</a></td>
                 <td>{{ ticket.id }}</td>
-                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.status|capfirst }}</td>
                 <td>{{ ticket.created_at}}</td>
-                <td>{{ ticket.priority }}</td>
+                <td>{{ ticket.priority|capfirst }}</td>
                 <td>{{ ticket.updated_at }}</td>
             </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr class="p-3"/>
+    <h3>Your recently closed requests</h3>
+    <table class="table table-bordered table-sm table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Subject</th>
+                <th scope="col">ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Date Closed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            {% if ticket.status == 'resolved' or ticket.status == 'closed' %}
+            <tr>
+                <td><a href="/ticket/{{ ticket.id }}">{{ ticket.title }}</a></td>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.status|capfirst }}</td>
+                <td>{{ ticket.created_at}}</td>
+                <td>{{ ticket.priority|capfirst }}</td>
+                <td>{{ ticket.updated_at }}</td>
+            </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

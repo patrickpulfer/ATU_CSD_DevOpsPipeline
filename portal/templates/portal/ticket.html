@@ -5,7 +5,7 @@
 {% load crispy_forms_tags %}
 {% for ticket in tickets %}
 <div class="border rounded-3 p-2">
-    <h1>Hi {% load account %}{% user_display user %}, Your Service Request</h1>
+    <h1>Hi {% load account %}{% user_display user %}, your Service Request</h1>
     <table class="table table-bordered table-sm table-responsive">
         <thead>
             <tr>
@@ -22,12 +22,12 @@
             
             <tr>
                 <td>{{ ticket.id }}</td>
-                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.status|capfirst }}</td>
                 <td>{{ ticket.created_at }}</td>
-                <td>{{ ticket.priority }}</td>
+                <td>{{ ticket.priority|capfirst }}</td>
                 <td>{{ ticket.updated_at }}</td>
                 <td>{{ ticket.title }}</td>
-                <td>{{ ticket.agent }}</td>
+                <td>{{ ticket.agent|capfirst }}</td>
             </tr>
             
         </tbody>
