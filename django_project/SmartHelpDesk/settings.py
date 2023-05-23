@@ -1,31 +1,12 @@
-from dotenv import load_dotenv
 import os
 from pathlib import Path
 
 
-"""
-Django DEBUG config
-"""
-load_dotenv()
-DEBUG = os.environ.get("DEVELOPMENT", False)
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG')
+ALLOWED_HOSTS = ['*']
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.environ.get('HOSTNAME_DEBUG')]
-    SECRET_KEY = 'django-insecure-63oi#2=sqmy51pv&)yifbn82fplzn%toq!-wfzwbr6^zdr!c)p'
-else:
-    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME'), ]
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    SECRET_KEY = 'django-insecure-63oi#2=sqmy51pv&)yifbn82fplzn%toq!-wfzwbr6^zdr!c)p'
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -101,8 +82,12 @@ WSGI_APPLICATION = 'SmartHelpDesk.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
@@ -140,8 +125,10 @@ USE_TZ = True
 """
 Static & Media Settings
 """
-STATIC_URL = 'static/'
+STATIC_ROOT = '/static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
