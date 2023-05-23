@@ -16,7 +16,7 @@ jobs:
         working-directory: ./django_project
 
     env:
-      DJANGO_SECRET_KEY: test-key-not-production
+      SECRET_KEY: test-key-not-production
       POSTGRES_DB: dockerdc
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_USER: myuser
