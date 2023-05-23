@@ -20,7 +20,7 @@ jobs:
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_HOST: db
+      POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
       DB_IGNORE_SSL: "true"
 
