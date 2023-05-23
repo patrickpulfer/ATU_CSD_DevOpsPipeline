@@ -54,6 +54,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Database Migration
+        run: |
+          python manage.py makemigrations core
+          python manage.py makemigrations portal
+          python manage.py migrate core
+          python manage.py migrate portal
+
       - name: Run Tests
         run: |
           python manage.py test
