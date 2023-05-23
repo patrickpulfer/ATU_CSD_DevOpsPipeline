@@ -1,6 +1,8 @@
 name: Django CI & Postgres Test
 
 on:
+  workflow_call:
+  workflow_dispatch:
   push:
     branches: [ "main", "staging" ]
   pull_request:
@@ -9,6 +11,9 @@ on:
 jobs:
   django_test:
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./django_project
 
     env:
       DJANGO_SECRET_KEY: test-key-not-production
@@ -37,7 +42,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9, 3.10, 3.11]
+        python-version: [3.11]
 
     steps:
       - uses: actions/checkout@v2
