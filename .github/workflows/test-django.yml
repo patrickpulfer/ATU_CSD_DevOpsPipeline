@@ -10,10 +10,6 @@ jobs:
   django_test:
     runs-on: ubuntu-latest
 
-    defaults:
-        run:
-          working-directory: ./web
-
     env:
       DJANGO_SECRET_KEY: test-key-not-production
       POSTGRES_DB: dockerdc
@@ -41,7 +37,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9, 3.10, 3.11]
 
     steps:
       - uses: actions/checkout@v2
