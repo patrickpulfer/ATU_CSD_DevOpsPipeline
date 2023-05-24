@@ -5,6 +5,9 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+#RUN sudo apt-get install libpq-dev -y
+#RUN pip3 install psycopg2
+
 COPY ./django_project /app
 WORKDIR /app
 

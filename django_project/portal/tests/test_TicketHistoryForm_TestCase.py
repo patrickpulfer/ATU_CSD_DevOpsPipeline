@@ -7,7 +7,8 @@ from portal.forms import Ticket_History_Form
 class TicketHistoryForm_TestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        random_password = User.objects.make_random_password()
+        self.user = User.objects.create_user(username='testuser', password=random_password)
         self.ticket = Ticket.objects.create(
             title='Test Ticket',
             description='This is a test ticket.',

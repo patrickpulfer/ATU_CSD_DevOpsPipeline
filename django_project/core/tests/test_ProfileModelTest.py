@@ -9,8 +9,9 @@ from django.contrib import admin
 class ProfileModelTest(TestCase):
 
     def setUp(self):
-        self.user1 = User.objects.create_user(username='testuser1', password='testpassword1')
-        self.user2 = User.objects.create_user(username='testuser2', password='testpassword2', email='testuser2@example.com')
+        random_password = User.objects.make_random_password()
+        self.user1 = User.objects.create_user(username='testuser1', password=random_password)
+        self.user2 = User.objects.create_user(username='testuser2', password=random_password, email='testuser2@example.com')
         self.profile1 = Profile.objects.get(user=self.user1)
         self.profile2 = Profile.objects.get(user=self.user2)
 
@@ -36,7 +37,8 @@ class ProfileModelTest(TestCase):
         self.assertEqual(self.profile2.role, Profile.Role.admin_role)
 
     def test_create_or_update_user_profile(self):
-        user3 = User.objects.create_user(username='testuser3', password='testpassword3')
+        random_password = User.objects.make_random_password()
+        user3 = User.objects.create_user(username='testuser3', password=random_password)
         profile3 = Profile.objects.get(user=user3)
         self.assertIsNotNone(profile3)
 

@@ -43,7 +43,7 @@ class WS1_Diagnostics_Module:
     def getDiscovery(self):
         url = self.url_discovery + self.service_domain
         try:
-            response = requests.get(url).json()
+            response = requests.get(url, timeout=5).json()
         except:
             print("An exception occurred while querying discovery")
         return response
@@ -52,7 +52,7 @@ class WS1_Diagnostics_Module:
         status_code = bool
         url = self.url_console.replace('VALUE', str(self.service_id))
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             status_code = response.status_code
         except:
             print("An exception occurred while querying console status")
@@ -66,7 +66,7 @@ class WS1_Diagnostics_Module:
         status_code = bool
         url = self.url_devices.replace('VALUE', str(self.service_id))
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             status_code = response.status_code
         except:
             print("An exception occurred while querying devices status")
@@ -80,7 +80,7 @@ class WS1_Diagnostics_Module:
         status_code = bool
         url = self.url_app_catalog.replace('VALUE', str(self.service_id))
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             status_code = response.status_code
         except:
             print("An exception occurred while querying app catalog status")
@@ -93,7 +93,7 @@ class WS1_Diagnostics_Module:
     def getAWCM_status(self):
         url = self.url_awcm.replace('VALUE', str(self.service_id))
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
         except:
             print("An exception occurred while querying app catalog status")
         return response.text
@@ -101,7 +101,7 @@ class WS1_Diagnostics_Module:
     def getServiceStatus(self):
         url = self.url_service_status
         try:
-            response = requests.get(url).json()
+            response = requests.get(url, timeout=5).json()
         except:
             print("An exception occurred while querying discovery")
         return response
