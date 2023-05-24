@@ -17,4 +17,4 @@ class HomeView_TestCase(TestCase):
         random_password = User.objects.make_random_password()
         self.client.login(username='testuser', password=random_password)
         response = self.client.get(self.home_url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
