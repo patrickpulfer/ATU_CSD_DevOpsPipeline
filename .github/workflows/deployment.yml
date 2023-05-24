@@ -45,6 +45,6 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: GitHub Actions - Deployment complete
-        body: 
+        body: Deployment complete!
         from: ${{ secrets.EMAIL_FROM }}
         to: ${{ secrets.EMAIL_TO }}
