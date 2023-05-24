@@ -37,6 +37,7 @@ class ProfileModelTest(TestCase):
         self.assertEqual(self.profile2.role, Profile.Role.admin_role)
 
     def test_create_or_update_user_profile(self):
+        random_password = User.objects.make_random_password()
         user3 = User.objects.create_user(username='testuser3', password=random_password)
         profile3 = Profile.objects.get(user=user3)
         self.assertIsNotNone(profile3)
