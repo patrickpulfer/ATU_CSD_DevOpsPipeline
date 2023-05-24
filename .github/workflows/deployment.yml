@@ -14,7 +14,7 @@ jobs:
           host: ${{ secrets.DOCKER_HOST }}
           username: ${{ secrets.DOCKER_USERNAME }}
           port: ${{ secrets.DOCKER_PORT }}
-          password: ${{ secrets.FLASK_PASSWORD }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           script: |
             ./auto-deploy.sh
             exit
@@ -27,7 +27,7 @@ jobs:
     - name: Check URL Status
       uses: gpuliyar/check-url-action@v1.0.1
       with:
-        url: https://approval.example.org/berry
+        url: http://178.79.178.78/
         init-delay: 1000
         retry-count: 1
         retry-delay: 1000
