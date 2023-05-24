@@ -1,0 +1,50 @@
+name: Django CI & Postgres Test
+
+on:
+  push:
+    branches: [ "main", "9-docker-deployment" ]
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DOCKER_HOST }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          port: ${{ secrets.DOCKER_PORT }}
+          password: ${{ secrets.FLASK_PASSWORD }}
+          script: |
+            ./auto-deploy.sh
+            exit
+            exit
+
+  check_deployment:
+    needs: deployment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check URL Status
+      uses: gpuliyar/check-url-action@v1.0.1
+      with:
+        url: https://approval.example.org/berry
+        init-delay: 1000
+        retry-count: 1
+        retry-delay: 1000
+        codes-allowed: 200,201,202
+
+  notification_email:
+    needs: check_deployment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send notification email
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: GitHub Actions - Deployment complete
+        body: 
+        from: ${{ secrets.EMAIL_FROM }}
+        to: ${{ secrets.EMAIL_TO }}
