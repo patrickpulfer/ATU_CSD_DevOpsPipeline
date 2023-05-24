@@ -4,7 +4,7 @@ on:
   workflow_call:
   workflow_dispatch:
   push:
-    branches: ["main", "staging", "patrickpulfer-patch-2"]
+    branches: ["main", "staging", "2-python-secops-automation"]
 
 jobs:
   build:
