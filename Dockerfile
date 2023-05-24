@@ -12,6 +12,6 @@ COPY ./django_project /app
 WORKDIR /app
 
 COPY ./entrypoint.sh /
-RUN ["chmod", "u+x,g+x,o+x", "entrypoint.sh"]
-RUN ["ls", "-l", "entrypoint.sh"]
+RUN ["chmod", "u+x,g+x,o+x", "/entrypoint.sh"]
+RUN ["ls", "-l", "/entrypoint.sh"]
 ENTRYPOINT ["sh", "/entrypoint.sh"]
