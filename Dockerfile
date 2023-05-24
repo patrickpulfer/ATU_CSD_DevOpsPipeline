@@ -11,7 +11,8 @@ RUN pip install -r requirements.txt
 COPY ./django_project /app
 WORKDIR /app
 
+RUN ["chmod", "+x", "/entrypoint.sh"]
 COPY ./entrypoint.sh /
 #RUN chmod u+rwx /entrypoint.sh
-RUN ["chmod", "+x", "/entrypoint.sh"]
+RUN ["chmod", "+x", "entrypoint.sh"]
 ENTRYPOINT ["sh", "/entrypoint.sh"]
