@@ -12,5 +12,5 @@ COPY ./django_project /app
 WORKDIR /app
 
 COPY ./entrypoint.sh /
-RUN chmod u+rwx entrypoint.sh
+RUN chmod u+rwx /entrypoint.sh
 ENTRYPOINT ["sh", "/entrypoint.sh"]
