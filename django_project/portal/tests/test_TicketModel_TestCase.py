@@ -6,8 +6,9 @@ from portal.models import Ticket
 class TicketModel_TestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.agent = User.objects.create_user(username='testagent', password='testpassword')
+        random_password = User.objects.make_random_password()
+        self.user = User.objects.create_user(username='testuser', password=random_password)
+        self.agent = User.objects.create_user(username='testagent', password=random_password)
         self.ticket = Ticket.objects.create(
             user=self.user,
             agent=self.agent,

@@ -6,7 +6,8 @@ from portal.models import Ticket, Diagnostics_Report
 class DiagnosticsReportModel_TestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        random_password = User.objects.make_random_password()
+        self.user = User.objects.create_user(username='testuser', password=random_password)
         self.ticket = Ticket.objects.create(
             user=self.user,
             title='Test Ticket',
