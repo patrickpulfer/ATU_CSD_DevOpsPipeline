@@ -4,7 +4,7 @@ on:
   workflow_call:
   workflow_dispatch:
   push:
-    branches: [ "main", "staging", "patrickpulfer-patch-1" ]
+    branches: [ "main", "staging" ]
 
 jobs:
   django_test:
