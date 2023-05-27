@@ -1,8 +1,8 @@
-name: Django CI & Postgres Test
+name: Releae & Deployment
 
 on:
   push:
-    branches: [ "main", "9-docker-deployment" ]
+    branches: [ "main" ]
 
 jobs:
   deployment:
@@ -32,6 +32,18 @@ jobs:
         retry-count: 1
         retry-delay: 1000
         codes-allowed: 200,201,202
+
+  release:
+    needs: check_deployment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: ${{ secrets.API_GITHUB_TOKEN }}
+        automatic_release_tag: "latest"
+        prerelease: false
+        title: "Release Build"
 
   notification_email:
     needs: check_deployment
