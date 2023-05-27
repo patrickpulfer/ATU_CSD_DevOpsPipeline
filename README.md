@@ -1,5 +1,16 @@
 ![](https://img.shields.io/github/last-commit/ATU-CSD-Project-l00177585/App?style=for-the-badge) ![](https://img.shields.io/github/repo-size/ATU-CSD-Project-l00177585/App?style=for-the-badge) ![](https://img.shields.io/github/languages/count/ATU-CSD-Project-l00177585/App?style=for-the-badge)
 
+## DevOps Pipeline Status
+
+[![Python Security Check using Bandit](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/security-python-bandit.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/security-python-bandit.yml)
+
+[![Django CI & Postgres Test](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml)
+
+[![Django CI & Postgres Test](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml)
+
+<br>
+
+
 # Smart Help Desk System
 
 This project aims to develop a smarter Help Desk online system to improve the end-user experience,
