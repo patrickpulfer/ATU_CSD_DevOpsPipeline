@@ -1,5 +1,5 @@
 FROM python:3.11.3-slim-buster
-#ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 
 COPY ./requirements.txt requirements.txt
@@ -12,5 +12,6 @@ COPY ./django_project /app
 WORKDIR /app
 
 COPY ./entrypoint.sh /
-RUN chmod u+rwx entrypoint.sh
+RUN ["chmod", "u+x,g+x,o+x", "/entrypoint.sh"]
+RUN ["ls", "-l", "/entrypoint.sh"]
 ENTRYPOINT ["sh", "/entrypoint.sh"]
