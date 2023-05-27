@@ -1,12 +1,10 @@
-![](https://img.shields.io/github/last-commit/ATU-CSD-Project-l00177585/App?style=for-the-badge) ![](https://img.shields.io/github/repo-size/ATU-CSD-Project-l00177585/App?style=for-the-badge) ![](https://img.shields.io/github/languages/count/ATU-CSD-Project-l00177585/App?style=for-the-badge)
+ ![](https://img.shields.io/github/repo-size/ATU-CSD-Project-l00177585/App?style=for-the-badge) ![](https://img.shields.io/github/languages/count/ATU-CSD-Project-l00177585/App?style=for-the-badge)
 
 ## DevOps Pipeline Status
 
-[![Python Security Check using Bandit](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/security-python-bandit.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/security-python-bandit.yml)
+![](https://img.shields.io/github/commits-since/patrickpulfer/ATU_CSD_DevOpsPipeline/latest/staging?label=Commits%20ready%20for%20release&style=for-the-badge) ![](https://img.shields.io/github/last-commit/patrickpulfer/ATU_CSD_DevOpsPipeline?label=Last%20Release%20%26%20Deployment&style=for-the-badge)
 
-[![Django CI & Postgres Test](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml)
-
-[![Django CI & Postgres Test](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml/badge.svg)](https://github.com/patrickpulfer/ATU_CSD_DevOpsPipeline/actions/workflows/deployment.yml)
+![](https://img.shields.io/github/actions/workflow/status/patrickpulfer/ATU_CSD_DevOpsPipeline/test_django.yml?label=Django%20Tests&style=for-the-badge) ![](https://img.shields.io/github/actions/workflow/status/patrickpulfer/ATU_CSD_DevOpsPipeline/security_python-bandit.yml?label=Security%20Checks&style=for-the-badge)
 
 <br>
 
